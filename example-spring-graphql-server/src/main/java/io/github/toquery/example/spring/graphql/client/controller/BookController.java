@@ -1,5 +1,7 @@
-package io.github.toquery.example.spring.graphql;
+package io.github.toquery.example.spring.graphql.client.controller;
 
+import io.github.toquery.example.spring.graphql.client.entity.Author;
+import io.github.toquery.example.spring.graphql.client.entity.Book;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;

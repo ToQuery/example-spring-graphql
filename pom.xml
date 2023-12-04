@@ -8,143 +8,91 @@
 		<version>3.2.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+	<packaging>pom</packaging>
+
 	<groupId>io.github.toquery</groupId>
 	<artifactId>example-spring-graphql</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>example-spring-graphql</name>
 	<description>Demo project for Spring Boot</description>
+
+
 	<properties>
 		<java.version>21</java.version>
+		<dgs.framework.version>8.1.1</dgs.framework.version>
+		<dgs.codegen.shared.core.version>6.1.0</dgs.codegen.shared.core.version>
 	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-graphql</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-hateoas</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-rest-hal-explorer</artifactId>
-		</dependency>
 
+	<modules>
+		<module>example-spring-graphql-server</module>
+		<module>example-spring-graphql-client</module>
+	</modules>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-docker-compose</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-
-		-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webflux</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.graphql</groupId>
-			<artifactId>spring-graphql-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.netflix.graphql.dgs</groupId>
+				<artifactId>graphql-dgs-platform-dependencies</artifactId>
+				<version>${dgs.framework.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.netflix.graphql.dgs.codegen</groupId>
+				<artifactId>graphql-dgs-codegen-shared-core</artifactId>
+				<version>${dgs.codegen.shared.core.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>io.github.deweyjose</groupId>
-				<artifactId>graphqlcodegen-maven-plugin</artifactId>
-				<version>1.50</version>
-				<executions>
-					<execution>
-						<id>dgs-codegen</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-
-					</execution>
-				</executions>
-				<configuration>
-					<schemaPaths>
-						<param>src/main/resources/graphql</param>
-					</schemaPaths>
-					<packageName>io.github.toquery.example.spring.graphql.codegen</packageName>
-					<addGeneratedAnnotation>true</addGeneratedAnnotation>
-					<generateBoxedTypes>true</generateBoxedTypes>
-					<generateClientApi>true</generateClientApi>
-					<writeToFiles>true</writeToFiles>
-					<generateDocs>true</generateDocs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>add-dgs-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.build.directory}/generated-sources</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.graalvm.buildtools</groupId>
-				<artifactId>native-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>io.github.deweyjose</groupId>
+					<artifactId>graphqlcodegen-maven-plugin</artifactId>
+					<version>1.50</version>
+					<executions>
+						<execution>
+							<id>dgs-codegen</id>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<schemaPaths>
+							<param>src/main/resources/graphql</param>
+						</schemaPaths>
+						<packageName>io.github.toquery.example.spring.graphql.codegen</packageName>
+						<addGeneratedAnnotation>true</addGeneratedAnnotation>
+						<generateBoxedTypes>true</generateBoxedTypes>
+						<generateClientApi>true</generateClientApi>
+						<writeToFiles>true</writeToFiles>
+						<generateDocs>true</generateDocs>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>add-dgs-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>${project.build.directory}/generated-sources</source>
+								</sources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
-
 </project>

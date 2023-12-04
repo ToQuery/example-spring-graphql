@@ -1,4 +1,4 @@
-package io.github.toquery.example.spring.graphql;
+package io.github.toquery.example.spring.graphql.client.entity;
 
 import java.util.Arrays;
 import java.util.List;
