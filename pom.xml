@@ -20,7 +20,7 @@
 
 	<properties>
 		<java.version>21</java.version>
-		<dgs.framework.version>8.5.8</dgs.framework.version>
+		<dgs.framework.version>8.6.0</dgs.framework.version>
 		<dgs.codegen.shared.core.version>6.2.1</dgs.codegen.shared.core.version>
 	</properties>
 
